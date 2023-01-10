@@ -13,11 +13,13 @@ export class AuthService {
 
   public sign(payload : {email: string, password: string }): Observable<any>{
     return this.http.post(`${this.url}/sign`, payload).pipe(
-      map((data) => {
-        return console.log(data);
+      map((res) => {
+        return console.log(res);
       }),
-      catchError((err) => {
-        return throwError(() => err.error.message);
+      catchError((e) => {
+        if(e.error.message) return throwError(() => e.error.message);
+
+        return throwError(() => "No momento não estamos conseguindo validar este dados, tente novamente mais tarde");
       })
     )
   }
